@@ -2,17 +2,36 @@
 
 ## Current receipt
 
-The implementation is complete locally at the pure-test layer. Real PostgreSQL 17.6 execution and public CI receipts are pending
-the first implementation push; this file will record immutable run and commit identifiers after that gate executes.
+The first public implementation gate passed at commit `2bb5085d2029122650147b8f0c8dbd2589180ef6` in GitHub Actions run
+[`32168305624`](https://github.com/estelledc/system-design-12-chat-system/actions/runs/32168305624). All Node 22.23.2,
+24.19.0, and 26.7.0 jobs used PostgreSQL 17.6 and completed the same full gate.
 
 | Gate | Current result | What it proves |
 |---|---|---|
-| JavaScript syntax and repository policy | ready; not yet public | files parse and repository-required artifacts are present |
-| pure tests | 17 passing, 0 skipped on the development runtime | contracts, service evidence labels, HTTP behavior, safe logs, and local WebSocket policy |
-| dependency audit | 0 known high-severity findings at install time | npm advisory database found no issue at the configured threshold; not full supply-chain assurance |
-| PostgreSQL integration | pending public PostgreSQL 17.6 run | concurrency, membership intervals, notification commit behavior, ticket consume, progress |
-| process smoke | pending public PostgreSQL 17.6 run | ambiguous API response retry, real socket write, gateway outage, database catch-up |
-| bounded benchmark | pending public PostgreSQL 17.6 run | raw timing for a small synthetic fixture, not production capacity |
+| JavaScript syntax and repository policy | 39 files checked in every matrix job | files parse and repository-required artifacts are present |
+| pure tests | 17/17 passing per job, 0 skipped | contracts, service evidence labels, HTTP behavior, safe logs, and local WebSocket policy |
+| dependency audit | 0 known high-severity findings in every job | npm advisory database found no issue at the configured threshold; not full supply-chain assurance |
+| PostgreSQL integration | 6/6 passing per job, 0 skipped | concurrency, membership intervals, notification commit behavior, ticket consume, progress |
+| process smoke | passed per job with the same semantic receipt | ambiguous API response retry, real socket write, gateway outage, database catch-up |
+| bounded benchmark | completed per job; raw values below | timing for a small synthetic fixture, not production capacity |
+
+The smoke receipt in all three jobs reported:
+
+```json
+{"apiCrashSignal":"SIGKILL","retryCreated":false,"persistedSequences":[1,2,3],"realtimeEvidence":"server_socket_write_callback","gatewayRestarted":true,"catchupSequences":[3],"progressEvidence":"client_claim_accepted","screenDisplayClaims":0}
+```
+
+Shared-runner benchmark inputs were one 10-member conversation, 180 accepted messages, paged synchronization of those 180
+messages, and 80 issue/consume ticket round trips:
+
+| Node | acceptance transactions/s | synchronized messages/s | ticket round trips/s |
+|---|---:|---:|---:|
+| 22.23.2 | 381.331 | 30,974.696 | 418.590 |
+| 24.19.0 | 292.997 | 24,254.900 | 350.330 |
+| 26.7.0 | 287.897 | 27,730.038 | 375.687 |
+
+These single-run values include a shared GitHub runner and one local service container. They are observations, not stable
+comparisons between Node versions or capacity promises.
 
 ## Full gate
 
