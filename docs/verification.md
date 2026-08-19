@@ -2,9 +2,12 @@
 
 ## Current receipt
 
-The first public implementation gate passed at commit `2bb5085d2029122650147b8f0c8dbd2589180ef6` in GitHub Actions run
-[`32168305624`](https://github.com/estelledc/system-design-12-chat-system/actions/runs/32168305624). All Node 22.23.2,
+The identity-safe rewrite preserved every existing tree, message, and timestamp while mapping the four commits in order: `d735d69d2711f67ab9e76216c7d67855c2bfe041` → `0b4e1f40bca23b6dbaacb9ca52314cde9d15b4ca`, `edb7d227c8f96c54e199117cd32a11fdf865b902` → `e2688ba8b08c2fc0feb2e9a6a282ec3b8e1fb504`, `2bb5085d2029122650147b8f0c8dbd2589180ef6` → `70e468f0da25d39456ba2de9cc058505320c4978`, and `84f9f0cbac5312783e83c5cef427c18b7038eebd` → `353d585762d84ab76b63e5c86d467e59b0bb0581`.
+
+The first public implementation gate passed the tree now at commit `70e468f0da25d39456ba2de9cc058505320c4978` in historical pre-rewrite GitHub Actions run [`32168305624`](https://github.com/estelledc/system-design-12-chat-system/actions/runs/32168305624). The run remains bound to the old commit object. All Node 22.23.2,
 24.19.0, and 26.7.0 jobs used PostgreSQL 17.6 and completed the same full gate.
+
+Current reachable `main` uses the repository owner's GitHub noreply identity. Rewritten baseline `353d585762d84ab76b63e5c86d467e59b0bb0581` passed [CI run 32225303274](https://github.com/estelledc/system-design-12-chat-system/actions/runs/32225303274) on Node 22, 24, and 26 with PostgreSQL 17.6 and the full quality gate.
 
 | Gate | Current result | What it proves |
 |---|---|---|
